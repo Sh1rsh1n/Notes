@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABCMeta
-from service.data_service import NotesHandler
+from service.file_data_handler import NotesHandler
 
 class BaseView():
 	

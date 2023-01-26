@@ -1,16 +1,14 @@
-from service.data_service import FileDataHandler
+import service.file_data_handler as fdh
 from model.note import Note
 
 
 def run():
 
-	nt = Note('iphone', 'this is the best phone')
-	dh = FileDataHandler(nt)
+	# note = Note("skoda", "simply clever")
+	# fdh.write(note)
+	note_list = fdh.readAsList()
+	fdh.rewriteAfterRemove(note_list)
 
-	#dh.write()
-	note_list = dh.read()
-	dh.reWrite(note_list)
-
-	note_list = dh.read()
+	note_list = fdh.readAsNotesList()
 	print(note_list)
 

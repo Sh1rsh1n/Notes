@@ -35,3 +35,18 @@ def editBodyOfNote(title, body):
 			fdh.rewriteAfterEdit(list_notes)
 			return
 
+def notesSorting():
+	list_notes = fdh.readToNotesList()
+	list_notes.sort(key=lambda note: note.time, reverse=True)
+	return list_notes
+
+def dateChoices():
+	from datetime import datetime
+	# input_date = input('>>> ')
+	list_notes = fdh.readToList()
+	for note in list_notes:
+		print(note[3])
+		# if datetime.strftime(note[3][:]):
+		# 	print(note)
+
+

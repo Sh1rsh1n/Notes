@@ -1,10 +1,10 @@
 from datetime import datetime as dt
 
 class Note:
-	def __init__(self, title: str, body: str, create_time = dt.now().strftime('%d %b %Y %H:%M:%S')):
+	def __init__(self, title: str, body: str, create_time=dt.now().strftime('%d %m %Y %H:%M:%S')):
+		self.__create_time = create_time
 		self.__title = title
 		self.__body = body
-		self.__create_time = create_time
 	
 	@property
 	def title(self):
@@ -28,7 +28,7 @@ class Note:
 	
 	@time.setter
 	def time(self, create_time):
-		self.__create_time = create_time.strftime('%d %b %Y %H:%M:%S')
+		self.__create_time = create_time.strftime('%d %m %Y %H:%M:%S')
 	
 	def __repr__(self):
-		return f'Note: {self.title}, {self.body}, {self.create_time}'
+		return f'Название заметки: {self.__title}\nДата последнего изменения: {self.__create_time}\nТекст:\n{self.__body}\n'

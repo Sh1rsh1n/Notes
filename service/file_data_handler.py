@@ -7,7 +7,7 @@ path = 'test2.csv'
 
 def write(note: Note):
 	with open(path, 'a', newline='') as file:
-		size = len(readAsNotesList())
+		size = len(readToNotesList())
 		if size:
 			wr = csv.writer(file, delimiter=';')
 			wr.writerow([size + 1, note.title, note.body, note.time])
@@ -40,7 +40,7 @@ def readToNotesList():
 		note_list = []
 		index = 0
 		for note in list:
-			new_note = Note(note[1], note[2], datetime.strptime(note[3], '%d %b %Y %H:%M:%S'))
+			new_note = Note(note[1], note[2], datetime.strptime(note[3], '%d %m %Y %H:%M:%S'))
 			note_list.append(new_note)
 			index = index + 1
 		return note_list

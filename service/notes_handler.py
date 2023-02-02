@@ -1,5 +1,6 @@
 import service.file_data_handler as fdh
 from model.note import Note
+from datetime import datetime
 
 
 def getNoteByTitle(title: str):
@@ -40,13 +41,28 @@ def notesSorting():
 	list_notes.sort(key=lambda note: note.time, reverse=True)
 	return list_notes
 
-def dateChoices():
-	from datetime import datetime
-	# input_date = input('>>> ')
+def dateBeetwinFilter(date1, date2):
+	
 	list_notes = fdh.readToList()
-	for note in list_notes:
-		print(note[3])
-		# if datetime.strftime(note[3][:]):
-		# 	print(note)
 
+	date_start = datetime.strptime(date1[:10], '%d %m %Y')
+	date_finish = datetime.strptime(date2[:10], '%d %m %Y')
+	
+	for note in list_notes:
+		if date_start < op_date(note[3]) < date_finish:
+			print(note)
+
+
+	
+'''	# поиск по возрастанию(от наименьшего)
+if date1 < datetime.now():
+	for note in list_notes:
+		if date1 < datetime.striptime(note[3][:10], '%d %m %Y'):
+			print(note)
+
+# поиск по убыванию(от наибольшего)
+if date1:
+	for note in list_notes:
+		if date1 > datetime.striptime(note[3][:10], '%d %m %Y'):
+			print(note)'''
 

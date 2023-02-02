@@ -6,7 +6,7 @@ path = 'test2.csv'
 
 
 def write(note: Note):
-	with open(path, 'a', newline='') as file:
+	with open(path, 'a', newline='', encoding='utf-8') as file:
 		size = len(readToNotesList())
 		if size:
 			wr = csv.writer(file, delimiter=';')
@@ -28,14 +28,14 @@ def rewriteAfterRemove(list):
 
 
 def rewriteAfterEdit(list):
-	with open(path, 'w', newline='') as file:
+	with open(path, 'w', newline='', encoding='utf-8') as file:
 		rwr = csv.writer(file, delimiter=';')
 		for note in list:
 			rwr.writerow(note)
 
 
 def readToNotesList():
-	with open(path, 'r') as file:
+	with open(path, 'r', encoding='utf-8') as file:
 		list = csv.reader(file, delimiter=';')
 		note_list = []
 		index = 0
@@ -47,6 +47,7 @@ def readToNotesList():
 
 
 def readToList():
-	with open(path, 'r') as file:
+	with open(path, 'r', encoding='utf-8') as file:
 		return list(csv.reader(file, delimiter=';'))
+
 

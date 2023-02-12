@@ -29,8 +29,8 @@ class GetNoteView:
 	def getNotesByDate(self):
 		'''отсортированный по заданой дате или диапозоне дат, список'''
 		from datetime import datetime
-		d1 = datetime(2023, 1, 1)
-		d2 = datetime(2023, 3, 3)
+		d1 = "1 1 2023"
+		d2 = '3 3 2023'
 		n_h.dateBeetwinFilter(d1, d2)
 
 class AddNote:

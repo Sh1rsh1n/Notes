@@ -47,9 +47,10 @@ def dateBeetwinFilter(date1, date2):
 
 	date_start = datetime.strptime(date1[:10], '%d %m %Y')
 	date_finish = datetime.strptime(date2[:10], '%d %m %Y')
+	op = lambda d: datetime.strptime(d[:10], '%d %m %Y')
 	
 	for note in list_notes:
-		if date_start < op_date(note[3]) < date_finish:
+		if date_start < op(note[3]) < date_finish:
 			print(note)
 
 

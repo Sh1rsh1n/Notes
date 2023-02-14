@@ -1,6 +1,7 @@
 from model.note import Note
 from service import notes_handler as n_h
 
+
 class GetNoteView:
 	'''класс, запрашивает название заметки и выводит данные об одной или всех заметках'''
 	

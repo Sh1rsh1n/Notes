@@ -2,8 +2,8 @@ import csv
 from model.note import Note
 from datetime import datetime
 
-path = 'test2.csv'
-
+note_name = ''
+path = f'{note_name.lower}_notes_storage.csv'
 
 def write(note: Note):
 	with open(path, 'a', newline='', encoding='utf-8') as file:

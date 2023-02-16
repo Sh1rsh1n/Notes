@@ -34,17 +34,6 @@ class GetNoteView:
 		d2 = '3 3 2023'
 		n_h.dateBeetwinFilter(d1, d2)
 
-class AddNote:
-	'''Класс, добавляет заметку'''
-	
-	def add(self):
-		'''добавить заметку'''
-		
-		title = input('Введите название заметки: ')
-		body = input('Введите текст:\n')
-		note = Note(title, body)
-		n_h.addNote(note)
-
 class RemoveNote:
 	'''Класс, удаление заметок по заголовку.'''
 	
@@ -55,6 +44,12 @@ class RemoveNote:
 		n_h.removeNoteByTitle(title)
 		print(f'Заметка {title}, была успешно удалена.')
 
+class EditNote:
+	'''Класс, редактирование заметок'''
 
-class View(GetNoteView, AddNote, RemoveNote):
+	def edit():
+		n_h.editBodyOfNote()
+	
+	
+class View(GetNoteView, RemoveNote, EditNote):
 	pass

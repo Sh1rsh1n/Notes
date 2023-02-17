@@ -22,6 +22,7 @@ def rewrite(list):
 	'''Перезапись файла, после удаления или изменения заметки'''
 	
 	if not len(list) == len(readToList()):
+		print('reset list')
 		id = 1
 		for note in list:
 			note[0] = id

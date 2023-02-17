@@ -19,16 +19,17 @@ def addNote(note: Note):
 	fdh.write(note)
 
 
-def removeNoteByTitle(id):
+def removeNote(id):
 	list = fdh.readToList()
 	for note in list:
-		if note[1] == id:
+		if note[0] == id:
 			list.remove(note)
-			fdh.rewriteAfterRemove(list)
-			return
+			fdh.rewrite(list)
+			return True
+	return False
 
 
-def editBodyOfNote(id):
+def editNote(id):
 	
 	list_notes = fdh.readToList()
 	for note in list_notes:

@@ -42,8 +42,17 @@ def run():
 			continue
 		
 		if arg == 'del':
-			print('удалили заметку')
-
+			while True:
+				b_u.delete_note_ui()	# функция удаления заметки
+				print('=' * 42)
+				print('> Удалить еще одну заметку, введите "1" <\n> для выхода в главное меню введите любое значение <')
+				arg = input(':>>> ')
+				if not arg == '1':
+					break
+				else:
+					continue
+			continue
+			
 		if arg == 'sh':
 			print('показали заметку')
 			

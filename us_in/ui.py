@@ -6,7 +6,7 @@ from service import notes_handler as n_h
 class MainUI:
 	
 	def welcome_ui():
-		'''меню приветствия пользователя'''
+		'''метод, отображает меню приветствия пользователя'''
 		
 		print(f'{"<" * 10} Главное меню {">" * 10}')
 		print('=' * 42)
@@ -14,7 +14,7 @@ class MainUI:
 		print('=' * 42)
 
 	def help_ui():
-		'''список команд для работы с приложением'''
+		'''метод, показывает список команд для работы с приложением'''
 		
 		print(f'''
 {'*' * 11} список всех команд {'*' * 11}
@@ -30,7 +30,7 @@ class MainUI:
 class AddUI:
 	
 	def add_ui():
-		'''добавление заметки'''		
+		'''метод, добавление заметки'''		
 		
 		print('=' * 42)
 		print(f'{" " * 10}Добавление заметки.')
@@ -45,23 +45,42 @@ class AddUI:
 class EditUI:
 	
 	def edit_note_ui():
-		'''редактировать заметку'''
+		'''метод, редактирование заметки'''
 		
 		print('=' * 42)
 		print(f'{" " * 10}Редактирование заметки.')
 		print('=' * 42)
 		
 		notes_list = n_h.getNotesList() # получаем список всех заметок по названию
-		print(notes_list)
-		[print(f'{note[0]} => {note[1]}') for note in notes_list]
-			
-		print('=' * 42)
+		
+		[print('{:2s} || {:10s} || {:25s}\n{}'.format(note[0], note[1], note[2], '=' * 42)) for note in notes_list]
 		
 		id = input('Введите номер заметки: ')
-		if n_h.editBodyOfNote(id):
+		if n_h.editNote(id):
 			print('Заметка успешно отредактирована')
 		else:
 			print('Заметки с таким номером нет в списке')
 
-class BaseUI(MainUI, AddUI, EditUI):
+class DeleteUI:
+	
+	def delete_note_ui():
+		'''метод удаление заметки'''
+		
+		print('=' * 42)
+		print(f'{" " * 10}Удаление заметки.')
+		print('=' * 42)
+		
+		notes_list = n_h.getNotesList() # получаем список всех заметок по названию
+		
+		[print('{:2s} || {:10s} || {:25s}\n{}'.format(note[0], note[1], note[2], '=' * 42)) for note in notes_list]
+		
+		id = input('Введите номер заметки: ')
+		if n_h.removeNote(id):
+			print('Заметка успешно отредактирована')
+		else:
+			print('Заметки с таким номером нет в списке')
+		
+		
+
+class BaseUI(MainUI, AddUI, EditUI, DeleteUI):
 	pass

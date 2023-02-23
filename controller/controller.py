@@ -1,79 +1,91 @@
-
-from model.note import Note
-from view.base_view import View
-from us_in.ui import BaseUI as b_u
-from us_in.ui import draw_bord as draw
-
+from us_in.ui import BaseUI, draw_bord, console_clear
+import time
 
 def run():
-	
-	#load_bar()
-	print(draw(42))
-	print(f'{draw("<", 10)} Приложение "Блокнот" {draw(">", 10)}')
-	print(draw(42))
 
-	
+	start()
+	BaseUI.welcome_ui()
+
 	while True:
-		b_u.welcome_ui()
-		
+
 		value = input(':>>> ')
 		arg = check_input_args(value)	# проверка аргумента переданого из консоли
 		
 		if arg == 'add':
 			while True:
-				b_u.add_note_ui()	# функция добавления заметки в файл
-				print('=' * 42)
+				BaseUI.add_note_ui()	# функция добавления заметки в файл
+				print(draw_bord(42))
 				print('> добавить еще одну заметку введите: "1" <\n> для выхода в главное меню введите любое значение <')
 				arg = input(':>>> ')
-				if arg.lower == 'a':
+				if arg == '1':
 					continue
 				break
+			BaseUI.welcome_ui()
 			continue
 									
 		if arg == 'ed':
 			while True:
-				b_u.edit_note_ui()	# функция редактирования заметки
-				print('=' * 42)
+				BaseUI.edit_note_ui()	# функция редактирования заметки
+				print(draw_bord(42))
 				print('> Отредактировать другую заметку, введите "1" <\n> для выхода в главное меню введите любое значение <')
 				arg = input(':>>> ')
 				if not arg == '1':
 					break
 				else:
 					continue
+			BaseUI.welcome_ui()
 			continue
 		
 		if arg == 'del':
 			while True:
-				b_u.delete_note_ui()	# функция удаления заметки
-				print('=' * 42)
+				BaseUI.delete_note_ui()	# функция удаления заметки
+				print(draw_bord(42))
 				print('> Удалить еще одну заметку, введите "1" <\n> для выхода в главное меню введите любое значение <')
 				arg = input(':>>> ')
 				if not arg == '1':
 					break
 				else:
 					continue
+			BaseUI.welcome_ui()
 			continue
 			
 		if arg == 'sh':
+
 			while True:
-				print('Введите: \n\t-g просмотр заметок\n\t-f сортировка заметок')
+				console_clear()
 				arg = input(':>>> ')
-				if arg == '-g':
-					b_u.show_note_ui()
-					print('=' * 42)
-					print('> Просмотр еще одной заметки, введите "1" <\n> для выхода в главное меню введите любое значение <')
+
+				if arg == 'go':
+					BaseUI.show_note_ui()
+					print(draw_bord(42))
+					print('Просмотр еще одной заметки, введите "1" <\n> для выхода в главное меню введите любое значение.')
 					arg = input(':>>> ')
 					if not arg == '1':
 						break
 					else:
 						continue
 				
-				if arg == '-f':
-					b_u.sorted_by_date()
-					
-			
+				if arg == 'fa':
+					BaseUI.sorted_by_date(True)
+					break
+
+				if arg == 'fd':
+					BaseUI.sorted_by_date(False)
+					break
+
+				if arg == 'flt':
+					BaseUI.filter_by_dates()
+					break
+
+				if arg == 'main':
+					break
+				else:
+					print("Некорректное значение. Повторите ввод.")
+					continue
+			BaseUI.welcome_ui()
+
 		if arg == 'help':
-			b_u.help_ui()
+			BaseUI.help_ui()
 			continue
 		
 		if arg == 'exit':
@@ -90,16 +102,15 @@ def check_input_args(value):
 				print('Некорректное значение, повторите ввод')
 				value = input(':>>> ')
 
-def load_bar():
-	'''бутофория загрузки приложения))'''
-	
-	import time
-	import console
-	
+def start():
+
 	for percent in range(100):
+		print(draw_bord(42))
+		print(f'{draw_bord("<", 10)} Приложение "Блокнот" {draw_bord(">", 10)}')
+		print(draw_bord(42))
 		s = f"[{(percent // 10) * '■'}"
 		s += f"{(10 - (percent // 10)) * '_'}] "
-		s += f"{percent}"
+		s += f"{percent}%"
 		print(s, end="\r")
-		time.sleep(0.05)
-		console.clear()
+		time.sleep(0.01)
+		console_clear()

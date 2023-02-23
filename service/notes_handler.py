@@ -1,3 +1,5 @@
+import re
+
 import service.file_data_handler as fdh
 from model.note import Note
 from datetime import datetime
@@ -43,52 +45,28 @@ def editNote(id):
 	return False
 
 
-def notes_sorting():
-	list_notes = fdh.readToNotesList()
-	arg = input(':>>> ')
-	while True:
-		if arg == 'asc':
-			list_notes.sort(key=lambda note: note.time, reverse=True)
-			break
-		elif arg == 'desc':
-			list_notes.sort(key=lambda note: note.time, reverse=False)
-			break
-		else:
-			print('Некорректное значение, повторите ввод.')
-			arg = input(':>>> ')
-			
+def notes_sorting(value=False):
+	list_notes = fdh.readToNotesList()	# получаем список всех заметок
+	list_notes.sort(key=lambda note: note.time, reverse=value) # сортируем заметки в зависимости от переданного параметра
 	return list_notes
 
 
-def dateFilter(date1, date2=None):
-	list_notes = fdh.readToNotesList()
+def dateFilter(date1, date2):
 
-	date_start = datetime.strptime(date1[:10], '%d %m %Y')
+	list_notes = fdh.readToList()
+	list_after_sort = []
+
 	op = lambda d: datetime.strptime(d[:10], '%d %m %Y')
 	
-	if date2 == None:
+	if date2 is None or date2 is "":
 		for note in list_notes:
-			if date_start == op(note[3]):
-				print(note)
+			if op(date1) == op(note[3]):
+				list_after_sort.append(note)
 	else:
-		date_finish = datetime.strptime(date2[:10], '%d %m %Y')
+		date_start = op(date1)
+		date_finish = op(date2)
 		for note in list_notes:
 			if date_start < op(note[3]) < date_finish:
-				print(note)
-			
-	
+				list_after_sort.append(note)
 
-
-	
-'''	# поиск по возрастанию(от наименьшего)
-if date1 < datetime.now():
-	for note in list_notes:
-		if date1 < datetime.striptime(note[3][:10], '%d %m %Y'):
-			print(note)
-
-# поиск по убыванию(от наибольшего)
-if date1:
-	for note in list_notes:
-		if date1 > datetime.striptime(note[3][:10], '%d %m %Y'):
-			print(note)'''
-
+	return list_after_sort

@@ -1,62 +1,73 @@
-from view.base_view import View
 from model.note import Note
 from service import notes_handler as n_h
-from colorama import Fore
 
 def draw_bord(size=0, bord='='):
 	'''функция отрисовки границ меню'''
 	return bord * size
 
+def console_clear():
+	'''очистка консоли'''
+
+	print("\033[H\033[J")
 
 class MainUI:
 	
 	def welcome_ui():
 		'''метод, отображает меню приветствия пользователя'''
-		
-		print(f'''
-{draw_bord(10, '<')} Главное меню {draw_bord(10, '>')}
-{draw_bord(42)}
-help - показать списка всех команд.\nexit - выход из приложения
-{draw_bord(42)}''')
+
+		print("\t\tГлавное меню")
+		print(draw_bord(42))
+		print("help - показать спискок всех команд.\nexit - выход из приложения")
+		print(draw_bord(42))
 
 	def help_ui():
 		'''метод, показывает список команд для работы с приложением'''
-		
-		print(f'''
-{draw_bord(11, '*')} список всех команд {draw_bord(11, '*')}
-		add\t\tдобавить заметку
-		ed\t\tредактировать заметку
-		del\t\tудалить заметку
-		sh\t\tпросмотр заметок
-		help\tсписок всех команд
-		exit\tвыход из приложения
-{draw_bord(42)}
-					''')
+
+		console_clear()
+		print(f"{draw_bord(11, '*')} список всех команд {draw_bord(11, '*')}")
+		print('add\tдобавить заметку (add/create)')
+		print('ed\tредактировать заметку (edit)')
+		print('del\tудалить заметку (delete/remove)')
+		print('sh\tпросмотр заметок (show/get)')
+		print(draw_bord(42))
+		print("Список команд аргумента 'sh'")
+		print('\tgo\t(get one) просмотр содержимого заметки')
+		print('\tсортировка заметок по дате последнего изменения:')
+		print('\tfa\t(sorting by ascending) по возрастанию')
+		print('\tfd\t(sorting by descending) по убыванию')
+		print('\tflt\t(filtering by date) фильтр по дате')
+		print('\tmain\tвыход в основное меню')
+		print(draw_bord(42))
+		print('help\tсписок всех команд')
+		print('exit\tвыход из приложения')
+		print(draw_bord(42))
 
 class AddUI:
 	
 	def add_note_ui():
-		'''метод, добавление заметки'''		
-		
+		'''метод, добавление заметки'''
+
+		console_clear()
 		print(draw_bord(42))
-		print(f'{draw_bord(10, " ")}Добавление заметки.')
+		print('\t\tДобавление заметки.')
 		print(draw_bord(42))
-		
+
 		title = input('Введите название заметки: ')
 		body = input('Введите текст:\n')
 		note = Note(title, body)	# создаем заметку
 		n_h.addNote(note)	# добавляем заметку в файл
-		print(f'{draw_bord(">", 10)} Заметка успешно добавлена {draw_bord("<", 10)}')
+		print(f'{draw_bord(10, ">")} Заметка успешно добавлена {draw_bord(10, "<")}')
 
 class EditUI:
 	
 	def edit_note_ui():
 		'''метод, редактирование заметки'''
-		
-		print('=' * 42)
-		print(f'{" " * 10}Редактирование заметки.')
-		print('=' * 42)
-		
+
+		console_clear()
+		print(draw_bord(42))
+		print('\t\tРедактирование заметки.')
+		print(draw_bord(42))
+
 		notes_list = n_h.getNotesList() # получаем список всех заметок по названию
 		
 		[print('{:2s} || {:10s}'.format(note[0], note[1])) for note in notes_list]
@@ -71,10 +82,11 @@ class DeleteUI:
 	
 	def delete_note_ui():
 		'''метод удаление заметки'''
-		
-		print('=' * 42)
-		print(f'{" " * 10}Удаление заметки.')
-		print('=' * 42)
+
+		console_clear()
+		print(draw_bord(42))
+		print('\t\tУдаление заметки.')
+		print(draw_bord(42))
 		
 		notes_list = n_h.getNotesList() # получаем список всех заметок по названию
 		
@@ -90,10 +102,12 @@ class DeleteUI:
 class ShowUI:
 	
 	def show_note_ui():
-		
-		print('=' * 42)
-		print(f'{" " * 10}Просмотр заметки.')
-		print('=' * 42)
+		'''метод, отображает название выбранной заметки, текст, дата последнего изменения'''
+
+		console_clear()
+		print(draw_bord(42))
+		print('\t\tПросмотр заметки.')
+		print(draw_bord(42))
 		
 		notes_list = n_h.getNotesList() # получаем список всех заметок по названию
 		
@@ -102,14 +116,40 @@ class ShowUI:
 		id = input('Введите номер заметки: ')
 		for note in notes_list:
 			if id == note[0]:
-				print(f'{"=" * 42}\nНазвание: {note[1]}\n{"=" * 42}\nТекст: {note[2]}\n{"=" * 42}\nДата изменения: {note[3]}\n{"=" * 42}')
+				console_clear()
+				print(f'{draw_bord(42)}\nНазвание: {note[1]}\n{draw_bord(42)}\nТекст: {note[2]}\n{draw_bord(42)}\nДата изменения: {note[3]}\n{draw_bord(42)}')
 				return 
 		print('Заметки с таким номером нет в списке')
 	
-	def sorted_by_date():
-		notes_list = n_h.notes_sorting()
-		
+	def sorted_by_date(value=False):
+		'''метод, сортировки списка всех заметок по дате изменения, по-умолчанию в порядке возрастания(от самой старой заметки)'''
 
+		console_clear()
+		notes_list = n_h.notes_sorting(value)
+		print(draw_bord(42))
+		[print('{:25s} || {}'.format(note.title, note.time)) for note in notes_list]
+		print(draw_bord(42))
+
+	def filter_by_dates():
+		'''метод, выборки данных по указаной дате(-ам)'''
+		while True:
+			console_clear()
+			print("Введите даты в формате: 12 12 2012")
+			date1 = input('первая дата :>>> ')
+			while not date1:
+				print("некорректное значение, повоторите ввод.")
+				print("перая дата является обязательным параметром")
+				date1 = input(':>>> ')
+
+			date2 = input('вторая дата :>>> ')
+			list_after_sort = n_h.dateFilter(date1, date2)
+			print(draw_bord(42))
+			[print('{:25s} || {}'.format(note[1], note[3])) for note in list_after_sort]
+			print(draw_bord(42))
+			arg = input('Выбрать другие даты, введите "1", для выхода введите любое значение')
+			if arg == '1':
+				continue
+			break
 
 class BaseUI(MainUI, AddUI, EditUI, DeleteUI, ShowUI):
 	pass

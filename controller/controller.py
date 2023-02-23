@@ -2,14 +2,15 @@
 from model.note import Note
 from view.base_view import View
 from us_in.ui import BaseUI as b_u
+from us_in.ui import draw_bord as draw
 
 
 def run():
 	
 	#load_bar()
-	print('=' * 42)
-	print(f'{"<" * 10} Приложение "Блокнот" {">" * 10}')
-	print('=' * 42)
+	print(draw(42))
+	print(f'{draw("<", 10)} Приложение "Блокнот" {draw(">", 10)}')
+	print(draw(42))
 
 	
 	while True:
@@ -20,7 +21,7 @@ def run():
 		
 		if arg == 'add':
 			while True:
-				b_u.add_ui()	# функция добавления заметки в файл
+				b_u.add_note_ui()	# функция добавления заметки в файл
 				print('=' * 42)
 				print('> добавить еще одну заметку введите: "1" <\n> для выхода в главное меню введите любое значение <')
 				arg = input(':>>> ')
@@ -54,7 +55,22 @@ def run():
 			continue
 			
 		if arg == 'sh':
-			print('показали заметку')
+			while True:
+				print('Введите: \n\t-g просмотр заметок\n\t-f сортировка заметок')
+				arg = input(':>>> ')
+				if arg == '-g':
+					b_u.show_note_ui()
+					print('=' * 42)
+					print('> Просмотр еще одной заметки, введите "1" <\n> для выхода в главное меню введите любое значение <')
+					arg = input(':>>> ')
+					if not arg == '1':
+						break
+					else:
+						continue
+				
+				if arg == '-f':
+					b_u.sorted_by_date()
+					
 			
 		if arg == 'help':
 			b_u.help_ui()
@@ -82,7 +98,7 @@ def load_bar():
 	
 	for percent in range(100):
 		s = f"[{(percent // 10) * '■'}"
-		s += f"{(10 - (percent // 10)) * '○'}] "
+		s += f"{(10 - (percent // 10)) * '_'}] "
 		s += f"{percent}"
 		print(s, end="\r")
 		time.sleep(0.05)

@@ -3,13 +3,6 @@ from model.note import Note
 from datetime import datetime
 
 
-def getNoteByTitle(title: str):
-	list = fdh.readToNotesList()
-	for note in list:
-		if note.title == title:
-			return note
-
-
 def getNotesList():
 	list = fdh.readToList()
 	return list
@@ -38,32 +31,52 @@ def editNote(id):
 			title = input('Введите название заметки:\n')
 			if title:	# если пользователь не ввел значение, оставить поле без изменений
 				note[1] = title
+				note[3] = datetime.now().strftime('%d %m %Y %H:%M:%S')
 				print('изменение названия успешно завершено')
 			body = input('Введите текст заметки:\n')
 			if body:	# если пользователь не ввел значение, оставить поле без изменений
 				note[2] = body
+				note[3] = datetime.now().strftime('%d %m %Y %H:%M:%S')
 				print('изменение текста заметки успешно завершено')
 			fdh.rewrite(list_notes)
 			return True
 	return False
 
 
-def notesSorting():
+def notes_sorting():
 	list_notes = fdh.readToNotesList()
-	list_notes.sort(key=lambda note: note.time, reverse=True)
+	arg = input(':>>> ')
+	while True:
+		if arg == 'asc':
+			list_notes.sort(key=lambda note: note.time, reverse=True)
+			break
+		elif arg == 'desc':
+			list_notes.sort(key=lambda note: note.time, reverse=False)
+			break
+		else:
+			print('Некорректное значение, повторите ввод.')
+			arg = input(':>>> ')
+			
 	return list_notes
 
 
-def dateBeetwinFilter(date1, date2):
-	list_notes = fdh.readToList()
+def dateFilter(date1, date2=None):
+	list_notes = fdh.readToNotesList()
 
 	date_start = datetime.strptime(date1[:10], '%d %m %Y')
-	date_finish = datetime.strptime(date2[:10], '%d %m %Y')
 	op = lambda d: datetime.strptime(d[:10], '%d %m %Y')
 	
-	for note in list_notes:
-		if date_start < op(note[3]) < date_finish:
-			print(note)
+	if date2 == None:
+		for note in list_notes:
+			if date_start == op(note[3]):
+				print(note)
+	else:
+		date_finish = datetime.strptime(date2[:10], '%d %m %Y')
+		for note in list_notes:
+			if date_start < op(note[3]) < date_finish:
+				print(note)
+			
+	
 
 
 	

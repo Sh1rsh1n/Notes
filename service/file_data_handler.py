@@ -9,7 +9,7 @@ def write(note: Note):
 	'''запись в файл, с добавлением на новой строке'''
 
 	with open(path, 'a', newline='', encoding='utf-8') as file:
-		size = len(readToNotesList())
+		size = len(readToList())
 		if size:
 			wr = csv.writer(file, delimiter=';')
 			wr.writerow([size + 1, note.title, note.body, note.time])
@@ -22,7 +22,6 @@ def rewrite(list):
 	'''Перезапись файла, после удаления или изменения заметки'''
 	
 	if not len(list) == len(readToList()):
-		print('reset list')
 		id = 1
 		for note in list:
 			note[0] = id
@@ -41,7 +40,7 @@ def rewriteAfterEdit(list):
 		for note in list:
 			rwr.writerow(note)
 '''
-'''
+
 def readToNotesList():
 	with open(path, 'r', encoding='utf-8') as file:
 		list = csv.reader(file, delimiter=';')
@@ -52,7 +51,7 @@ def readToNotesList():
 			note_list.append(new_note)
 			index = index + 1
 		return note_list
-'''
+
 
 def readToList():
 	with open(path, 'r', encoding='utf-8') as file:

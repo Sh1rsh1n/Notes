@@ -53,20 +53,32 @@ def notes_sorting(value=False):
 
 def dateFilter(date1, date2):
 
+	from re import compile
+
+	# def check_date(date):
+	# 	if compile(r"^[0-3][0-9] [01][0-9] [12][0-9][0-9][0-9]$").search(date):
+	# 		return True
+	# 	else:
+	# 		return False
+
 	list_notes = fdh.readToList()
 	list_after_sort = []
 
-	op = lambda d: datetime.strptime(d[:10], '%d %m %Y')
-	
-	if date2 is None or date2 is "":
+	check_date = lambda date: compile(r"(?<!\d)(?:0?[1-9]|[12][0-9]|3[01]) (?:0?[1-9]|1[0-2]) (?:19[0-9][0-9]|20[01][0-9])(?!\d)").search(date)
+	parse_date = lambda date: datetime.strptime(date[:10], '%d %m %Y')
+
+	if check_date(date1):
+		print('Некорректное значение даты.')
+
+	if date2 is None or date2 is "" and check_date(date2):
 		for note in list_notes:
-			if op(date1) == op(note[3]):
+			if parse_date(date1) == parse_date(note[3]):
 				list_after_sort.append(note)
 	else:
-		date_start = op(date1)
-		date_finish = op(date2)
+		date_start = parse_date(date1)
+		date_finish = parse_date(date2)
 		for note in list_notes:
-			if date_start < op(note[3]) < date_finish:
+			if date_start < parse_date(note[3]) < date_finish:
 				list_after_sort.append(note)
 
 	return list_after_sort

@@ -1,5 +1,6 @@
 from model.note import Note
 from service import notes_handler as n_h
+from re import compile
 
 def draw_bord(size=0, bord='='):
 	'''функция отрисовки границ меню'''
@@ -10,6 +11,16 @@ def console_clear():
 
 	print("\033[H\033[J")
 
+# def check_date(date):
+# 	'''метод, проверка корректности ввода даты'''
+#
+# 	if compile(r"(?<!\d)(?:0?[1-9]|[12][0-9]|3[01]) (?:0?[1-9]|1[0-2]) (?:19[0-9][0-9]|20[01][0-9])(?!\d)").search(date):
+# 		return True
+# 	return False
+
+check_date = lambda date: compile(r"(?<!\d)(?:0?[1-9]|[12][0-9]|3[01]) (?:0?[1-9]|1[0-2]) (?:19[0-9][0-9]|20[0-9][0-9])(?!\d)").search(date)
+
+
 class MainUI:
 	
 	def welcome_ui():
@@ -17,7 +28,7 @@ class MainUI:
 
 		print("\t\tГлавное меню")
 		print(draw_bord(42))
-		print("help - показать спискок всех команд.\nexit - выход из приложения")
+		print("help - показать список всех команд.\nexit - выход из приложения")
 		print(draw_bord(42))
 
 	def help_ui():
@@ -33,8 +44,8 @@ class MainUI:
 		print("Список команд аргумента 'sh'")
 		print('\tgo\t(get one) просмотр содержимого заметки')
 		print('\tсортировка заметок по дате последнего изменения:')
-		print('\tfa\t(sorting by ascending) по возрастанию')
-		print('\tfd\t(sorting by descending) по убыванию')
+		print('\tsa\t(sorting by ascending) по возрастанию')
+		print('\tsd\t(sorting by descending) по убыванию')
 		print('\tflt\t(filtering by date) фильтр по дате')
 		print('\tmain\tвыход в основное меню')
 		print(draw_bord(42))
@@ -134,19 +145,28 @@ class ShowUI:
 		'''метод, выборки данных по указаной дате(-ам)'''
 		while True:
 			console_clear()
+
 			print("Введите даты в формате: 12 12 2012")
 			date1 = input('первая дата :>>> ')
-			while not date1:
+			while not check_date(date1):
 				print("некорректное значение, повоторите ввод.")
 				print("перая дата является обязательным параметром")
+				print("Введите дату в формате: 12 12 2012")
 				date1 = input(':>>> ')
 
+			print('Введите пустую строку, если вторая дата не нужна.')
 			date2 = input('вторая дата :>>> ')
+			if date2:
+				while not check_date(date2):
+					print("некорректное значение, повоторите ввод.")
+					print("Введите дату в формате: 12 12 2012")
+					date2 = input(':>>> ')
+
 			list_after_sort = n_h.dateFilter(date1, date2)
 			print(draw_bord(42))
 			[print('{:25s} || {}'.format(note[1], note[3])) for note in list_after_sort]
 			print(draw_bord(42))
-			arg = input('Выбрать другие даты, введите "1", для выхода введите любое значение')
+			arg = input('Выбрать другие даты, введите "1", для выхода введите любое значение\n:>>> ')
 			if arg == '1':
 				continue
 			break

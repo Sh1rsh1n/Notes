@@ -53,6 +53,8 @@ def run():
 
 			while True:
 				console_clear()
+				print('\tМеню просмотра заметок.')
+				print(draw_bord(42))
 				arg = input(':>>> ')
 
 				if arg == 'go':
@@ -65,17 +67,21 @@ def run():
 					else:
 						continue
 				
-				if arg == 'fa':
+				if arg == 'sa':
 					BaseUI.sorted_by_date(True)
 					break
 
-				if arg == 'fd':
+				if arg == 'sd':
 					BaseUI.sorted_by_date(False)
 					break
 
 				if arg == 'flt':
 					BaseUI.filter_by_dates()
 					break
+
+				if arg == 'help':
+					BaseUI.help_ui()
+					continue
 
 				if arg == 'main':
 					break

@@ -58,14 +58,15 @@ def run():
 				arg = input(':>>> ')
 
 				if arg == 'go':
-					BaseUI.show_note_ui()
-					print(draw_bord(42))
-					print('Просмотр еще одной заметки, введите "1" <\n> для выхода в главное меню введите любое значение.')
-					arg = input(':>>> ')
-					if not arg == '1':
-						break
-					else:
-						continue
+					while True:
+						BaseUI.show_note_ui()
+						print(draw_bord(42))
+						print('Просмотр еще одной заметки, введите "1"\nдля выхода в меню просмотра введите любое значение\nдля выхода в главное меню введите "main"')
+						arg = input(':>>> ')
+						if arg == '1':
+							continue
+						else:
+							break
 				
 				if arg == 'sa':
 					BaseUI.sorted_by_date(True)
